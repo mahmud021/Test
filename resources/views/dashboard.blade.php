@@ -12,15 +12,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Boldonse&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+    <style>
+        .apexcharts-text {
+            font-family: 'Inter', ui-sans-serif, system-ui !important;
+        }
+    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
 </head>
 <body class="bg-gray-50">
-<script>
-    // Inject chart data from Laravel
-    window.chartData = {
-        categories: @json($categories), // Replace with your controller data
-        amounts: @json($amounts) // Replace with your controller data
-    };
-</script>
+
 <div class="relative min-h-screen">
     <!-- Header Section -->
     <header class="flex flex-col items-center justify-center py-12 bg-white shadow-md">
@@ -179,51 +181,71 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-5 grid-rows-9 gap-4">
                 <div class="col-span-5 text-center font-bold text-xl mb-4">OUR Charts</div>
-                <!-- Area Chart -->
+                <!-- Single Area Chart -->
                 <div class="col-span-3 row-span-4 row-start-2">
-                    <div id="hs-single-area-chart" style="height: 300px;"></div>
+                    <div id="hs-single-area-chart"></div>
                 </div>
                 <!-- Doughnut Chart with Legend -->
                 <div class="col-span-2 row-span-4 col-start-4 row-start-2">
-                    <div class="flex flex-col items-center">
+                    <div class="flex flex-col justify-center items-center">
                         <div id="hs-doughnut-chart"></div>
-                        <div class="flex items-center gap-x-4 mt-3">
+
+                        <!-- Legend Indicator -->
+                        <div class="flex justify-center sm:justify-end items-center gap-x-4 mt-3 sm:mt-6">
                             <div class="inline-flex items-center">
-                                <span class="w-3 h-3 bg-blue-600 rounded-sm mr-2"></span>
-                                <span class="text-[13px] text-gray-600">Income</span>
+                                <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
+                                <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+        Income
+      </span>
                             </div>
                             <div class="inline-flex items-center">
-                                <span class="w-3 h-3 bg-cyan-500 rounded-sm mr-2"></span>
-                                <span class="text-[13px] text-gray-600">Outcome</span>
+                                <span class="size-2.5 inline-block bg-cyan-500 rounded-sm me-2"></span>
+                                <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+        Outcome
+      </span>
                             </div>
                             <div class="inline-flex items-center">
-                                <span class="w-3 h-3 bg-gray-300 rounded-sm mr-2"></span>
-                                <span class="text-[13px] text-gray-600">Others</span>
+                                <span class="size-2.5 inline-block bg-gray-300 rounded-sm me-2 dark:bg-neutral-700"></span>
+                                <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+        Others
+      </span>
                             </div>
                         </div>
+                        <!-- End Legend Indicator -->
                     </div>
                 </div>
                 <!-- Bar Chart -->
                 <div class="col-span-2 row-span-4 row-start-6">
-                    <div id="chart" style="height: 350px;"></div>
+                    <div id="hs-single-bar-chart"></div>
                 </div>
                 <!-- Pie Chart with Legend -->
                 <div class="col-span-3 row-span-4 col-start-3 row-start-6">
-                    <div class="p-4 flex flex-col items-center">
-                        <div id="hs-pie-chart"></div>
-                        <div class="flex items-center gap-x-4 mt-3">
-                            <div class="inline-flex items-center">
-                                <span class="w-3 h-3 bg-blue-600 rounded-sm mr-2"></span>
-                                <span class="text-[13px] text-gray-600">Income</span>
+                    <div class="p-4">
+                        <div class="h-75 flex flex-col justify-center items-center">
+                            <div id="hs-pie-chart"></div>
+
+                            <!-- Legend Indicator -->
+                            <div class="flex justify-center sm:justify-end items-center gap-x-4 mt-3 sm:mt-6">
+                                <div class="inline-flex items-center">
+                                    <span class="size-2.5 inline-block bg-blue-600 rounded-sm me-2"></span>
+                                    <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+          Income
+        </span>
+                                </div>
+                                <div class="inline-flex items-center">
+                                    <span class="size-2.5 inline-block bg-cyan-500 rounded-sm me-2"></span>
+                                    <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+          Outcome
+        </span>
+                                </div>
+                                <div class="inline-flex items-center">
+                                    <span class="size-2.5 inline-block bg-gray-300 rounded-sm me-2 dark:bg-neutral-700"></span>
+                                    <span class="text-[13px] text-gray-600 dark:text-neutral-400">
+          Others
+        </span>
+                                </div>
                             </div>
-                            <div class="inline-flex items-center">
-                                <span class="w-3 h-3 bg-cyan-500 rounded-sm mr-2"></span>
-                                <span class="text-[13px] text-gray-600">Outcome</span>
-                            </div>
-                            <div class="inline-flex items-center">
-                                <span class="w-3 h-3 bg-gray-300 rounded-sm mr-2"></span>
-                                <span class="text-[13px] text-gray-600">Others</span>
-                            </div>
+                            <!-- End Legend Indicator -->
                         </div>
                     </div>
                 </div>
@@ -232,86 +254,11 @@
     </section>
 </div>
 
-@vite(['resources/css/app.css', 'resources/js/app.js'])
-<script type="module">
-    import ApexCharts from 'apexcharts';
-
-    document.addEventListener('DOMContentLoaded', () => {
-        try {
-            // Bar Chart
-            const barOptions = {
-                chart: {
-                    type: 'bar',
-                    height: 350,
-                    toolbar: { show: false }
-                },
-                series: [{
-                    name: 'COVID Cases',
-                    data: window.chartData.amounts
-                }],
-                xaxis: {
-                    categories: window.chartData.categories,
-                    title: { text: 'States' }
-                },
-                yaxis: {
-                    title: { text: 'Number of Cases' }
-                },
-                colors: ['#3b82f6'],
-                responsive: [{
-                    breakpoint: 640,
-                    options: { chart: { height: 300 } }
-                }]
-            };
-            new ApexCharts(document.querySelector("#chart"), barOptions).render();
-
-            // Area Chart
-            const areaOptions = {
-                chart: {
-                    height: 300,
-                    type: 'area',
-                    toolbar: { show: false }
-                },
-                series: [{
-                    name: 'Cases Trend',
-                    data: window.chartData.amounts
-                }],
-                xaxis: {
-                    categories: window.chartData.categories,
-                    title: { text: 'Timeline' }
-                },
-                colors: ['#10b981'],
-                stroke: { curve: 'smooth', width: 2 },
-                dataLabels: { enabled: false }
-            };
-            new ApexCharts(document.querySelector("#hs-single-area-chart"), areaOptions).render();
-        } catch (error) {
-            console.error('Chart initialization error:', error);
-        }
-    });
-
-    window.addEventListener('load', () => {
-        try {
-            // Pie Chart
-            new ApexCharts(document.querySelector("#hs-pie-chart"), {
-                chart: { type: 'pie', height: 300 },
-                series: window.chartData.amounts,
-                labels: window.chartData.categories,
-                colors: ['#3b82f6', '#10b981', '#f59e0b'],
-                legend: { position: 'bottom' }
-            }).render();
-
-            // Doughnut Chart
-            new ApexCharts(document.querySelector("#hs-doughnut-chart"), {
-                chart: { type: 'donut', height: 250 },
-                series: window.chartData.amounts,
-                labels: window.chartData.categories,
-                colors: ['#3b82f6', '#10b981', '#f59e0b'],
-                plotOptions: { pie: { donut: { labels: { show: true } } }
-                }).render();
-        } catch (error) {
-                console.error('Chart initialization error:', error);
-            }
-        });
-</script>
+<!-- Before closing </body> -->
+<!-- In your blade template before charts.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://preline.co/assets/js/hs-apexcharts-helpers.js"></script>
+@vite(['resources/js/charts.js'])
 </body>
 </html>
