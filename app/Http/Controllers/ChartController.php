@@ -2,42 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sale;
+use App\Models\CovidCase; // Renamed from Sale to more appropriate model
 use Illuminate\Http\Request;
 
 class ChartController extends Controller
 {
     public function index()
     {
-        // Fetch sales data grouped by category
-        $sales = Sale::select('category', 'amount')
+        // Get COVID cases data grouped by state
+        $casesData = CovidCase::select('state', 'cases')
             ->get()
-            ->groupBy('category')
+            ->groupBy('state')
             ->map(function ($group) {
-                return $group->sum('amount'); // Sum amounts if multiple entries per category
+                return $group->sum('cases');
             });
 
-        $categories = $sales->keys()->toArray(); // e.g., ['Jan', 'Feb', 'Mar', 'Apr']
-        $amounts = $sales->values()->toArray();  // e.g., [30, 40, 35, 50]
+        // Convert to arrays for charting
+        $categories = $casesData->keys()->toArray();
+        $amounts = $casesData->values()->toArray();
 
-        return view('welcome', [
-            'categories' => json_encode($categories),
-            'amounts' => json_encode($amounts),
-        ]);
+        return view('dashboard', compact('categories', 'amounts'));
     }
 
     public function data()
     {
-        $sales = Sale::select('category', 'amount')
+        // Get fresh data from database
+        $casesData = CovidCase::select('state', 'cases')
             ->get()
-            ->groupBy('category')
+            ->groupBy('state')
             ->map(function ($group) {
-                return $group->sum('amount');
+                return $group->sum('cases');
             });
 
         return response()->json([
-            'categories' => $sales->keys()->toArray(),
-            'amounts' => $sales->values()->toArray(),
+            'categories' => $casesData->keys()->toArray(),
+            'amounts' => $casesData->values()->toArray(),
         ]);
     }
 }
