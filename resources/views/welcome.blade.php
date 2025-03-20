@@ -117,6 +117,38 @@
         </div>
     </section>
 
+    <section class="py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-extrabold text-gray-900">Tech Stack</h2>
+                <p class="mt-4 text-lg text-gray-600">
+                    Our tech stacks
+                </p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                <!-- NCDC -->
+                <div class="flex flex-col items-center text-center">
+                    <img src="{{ asset('images/laravel.png') }}" alt="NCDC Logo" class="w-24 h-24 object-cover">
+                    <h3 class="mt-4 text-lg font-bold text-gray-800">Nigeria Centre for Disease Control (NCDC)</h3>
+                    <p class="mt-2 text-sm text-gray-600">Official data and guidelines for COVID‑19 response in Nigeria.</p>
+                </div>
+                <!-- NBS -->
+                <div class="flex flex-col items-center text-center">
+                    <img src="{{ asset('images/database.png') }}" alt="NBS Logo" class="w-24 h-24 object-cover">
+                    <h3 class="mt-4 text-lg font-bold text-gray-800">National Bureau of Statistics (NBS)</h3>
+                    <p class="mt-2 text-sm text-gray-600">Comprehensive demographic and economic data for Nigeria.</p>
+                </div>
+                <!-- HDX -->
+                <div class="flex flex-col items-center text-center">
+                    <img src="{{ asset('images/tailwind.png') }}" alt="HDX Logo" class="w-24 h-24 object-cover">
+                    <h3 class="mt-4 text-lg font-bold text-gray-800">Humanitarian Data Exchange (HDX)</h3>
+                    <p class="mt-2 text-sm text-gray-600">Global humanitarian data for crisis response and analysis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
     <!-- Charts Section -->
     <section class="py-12 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
